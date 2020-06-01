@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>3d viewer</title>
+    </head>
+
+    <body>
+        <canvas id="screen" width="600" height="600"></canvas>
+
+        <script id="vertex-shader" type="notjs">
+            attribute vec2 a_position;
+            attribute vec4 a_color;
+            
+            uniform vec2 u_resolution;
+            varying vec4 v_color;
+
+
+            void main() {
+                vec2 clipSpace = (a_position/u_resolution) * 2.0 - 1.0;
+                gl_Position = vec4(clipSpace, 0, 1);
+                v_color = a_color;
+            }
+        </script>
+        <script id="fragment-shader" type="notjs">
+            precision mediump float;
+            varying vec4 v_color;
+
+            void main() {
+                gl_FragColor = v_color;
+            }
+        </script>
+        <script src="render.js"></script>
+    </body>
+</html>
