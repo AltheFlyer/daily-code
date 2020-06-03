@@ -1,0 +1,203 @@
+:root {
+    --appear-duration: 1s;
+}
+
+
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+}
+
+.circle {
+    border-radius: 50%;
+    background-color: #eeeeee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#central-circle {
+    min-height: 40vmin;
+    max-height: 40vmin;
+    min-width: 40vmin;
+    max-width: 40vmin;
+    position: relative;
+    top: 30vmin;
+    margin: auto;
+}
+
+.child-circle {
+    background-color: #dddddd;
+    min-height: 20vmin;
+    max-height: 20vmin;
+    min-width: 20vmin;
+    max-width: 20vmin;
+    position: absolute;
+    z-index: -1;
+}
+
+.child-circle:hover {
+    border: 1px solid black;
+}
+
+.l-child {
+    animation: move-l, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.6s;
+}
+
+.r-child {
+    animation: move-r, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.2s;
+}
+
+.u-child {
+    animation: move-u, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+}
+
+.d-child {
+    animation: move-d, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.4s;
+}
+
+.ul-child {
+    animation: move-ul, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.7s;
+}
+
+.ur-child {
+    animation: move-ur, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.1s;
+}
+
+.dl-child {
+    animation: move-dl, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.5s;
+}
+
+.dr-child {
+    animation: move-dr, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.3s;
+}
+
+@keyframes grow {
+    from {
+        min-height: 5vmin;
+        max-height: 5vmin;
+        min-width: 5vmin;
+        max-width: 5vmin;
+    }
+    to {
+        min-height: 20vmin;
+        max-height: 20vmin;
+        min-width: 20vmin;
+        max-width: 20vmin;
+    }
+}
+
+@keyframes move-l {
+    from {
+        left: 25vmin;
+        top: 17.5vmin;
+    }
+    to {
+        left: -25vmin;
+        top: 10vmin;
+    }
+}
+
+@keyframes move-r {
+    from {
+        right: 25vmin;
+        top: 17.5vmin;
+    }
+    to {
+        right: -25vmin;
+        top: 10vmin;
+    }
+}
+
+@keyframes move-u {
+    from {
+        top: 25vmin;
+        left: 17.5vmin;
+    }
+    to {
+        top: -25vmin;
+        left: 10vmin;
+    }
+}
+
+@keyframes move-d {
+    from {
+        bottom:  25vmin;
+        left: 17.5vmin;
+    }
+    to {
+        bottom: -25vmin;
+        left: 10vmin;
+    }
+}
+
+@keyframes move-ul {
+    from {
+        left: 14.2vmin;
+        top: 14.2vmin;
+    }
+    to {
+        left: -14.2vmin;
+        top: -14.2vmin;
+    }
+}
+
+@keyframes move-ur {
+    from {
+        right: 14.2vmin;
+        top: 14.2vmin;
+    }
+    to {
+        right: -14.2vmin;
+        top: -14.2vmin;
+    }
+}
+
+@keyframes move-dl {
+    from {
+        left: 14.2vmin;
+        bottom: 14.2vmin;
+    }
+    to {
+        left: -14.2vmin;
+        bottom: -14.2vmin;
+    }
+}
+
+@keyframes move-dr {
+    from {
+        right: 14.2vmin;
+        bottom: 14.2vmin;
+    }
+    to {
+        right: -14.2vmin;
+        bottom: -14.2vmin;
+    }
+}
