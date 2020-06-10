@@ -1,0 +1,219 @@
+:root {
+    --appear-duration: 1s;
+}
+
+
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+}
+
+#radial-menu {
+    width: 100vmin;
+    height: 100vmin;
+    background-color: #cccccc;
+    margin: auto;
+    border-radius: 50%;
+    position: relative;
+    overflow: visible;
+}
+
+.circle {
+    border-radius: 50%;
+    background-color: #eeeeee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#central-circle {
+    min-height: 40vmin;
+    max-height: 40vmin;
+    min-width: 40vmin;
+    max-width: 40vmin;
+    position: relative;
+    top: 30vmin;
+    margin: auto;
+    z-index: 1;
+}
+
+.child-circle {
+    background-color: #dddddd;
+    min-height: 20vmin;
+    max-height: 20vmin;
+    min-width: 20vmin;
+    max-width: 20vmin;
+    position: absolute;
+    margin: auto;
+    visibility: hidden;
+}
+
+.child-circle:hover {
+    border: 1px solid black;
+}
+
+.l-child {
+    animation: move-l, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.6s;
+}
+
+.r-child {
+    animation: move-r, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.2s;
+}
+
+.u-child {
+    animation: move-u, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+}
+
+.d-child {
+    animation: move-d, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.4s;
+}
+
+.ul-child {
+    animation: move-ul, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.7s;
+}
+
+.ur-child {
+    animation: move-ur, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.1s;
+}
+
+.dl-child {
+    animation: move-dl, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.5s;
+}
+
+.dr-child {
+    animation: move-dr, grow;
+    animation-duration: var(--appear-duration);
+    animation-fill-mode: forwards;
+    animation-delay: 0.3s;
+}
+
+@keyframes grow {
+    from {
+        visibility: visible;
+        min-height: 5vmin;
+        max-height: 5vmin;
+        min-width: 5vmin;
+        max-width: 5vmin;
+        font-size: 25%;
+    }
+    to {
+        visibility: visible;
+        min-height: 20vmin;
+        max-height: 20vmin;
+        min-width: 20vmin;
+        max-width: 20vmin;
+        font-size: 100%;
+    }
+}
+
+@keyframes move-l {
+    from {
+        left: 47.5vmin;
+        top: 47.5vmin;
+    }
+    to {
+        left: 0vmin;
+        top: 40vmin;
+    }
+}
+
+@keyframes move-r {
+    from {
+        right: 47.5vmin;
+        top: 47.5vmin;
+    }
+    to {
+        right: 0vmin;
+        top: 40vmin;
+    }
+}
+
+@keyframes move-u {
+    from {
+        top: 47.5vmin;
+        left: 47.5vmin;
+    }
+    to {
+        top: 0vmin;
+        left: 40vmin;
+    }
+}
+
+@keyframes move-d {
+    from {
+        bottom: 47.5vmin;
+        left: 47.5vmin;
+    }
+    to {
+        bottom: 0vmin;
+        left: 40vmin;
+    }
+}
+
+@keyframes move-ul {
+    from {
+        left: 47.5vmin;
+        top: 47.5vmin;
+    }
+    to {
+        left: 11.8vmin;
+        top: 11.8vmin;
+    }
+}
+
+@keyframes move-ur {
+    from {
+        right: 47.5vmin;
+        top: 47.5vmin;
+    }
+    to {
+        right: 11.8vmin;
+        top: 11.8vmin;
+    }
+}
+
+@keyframes move-dl {
+    from {
+        left: 47.5vmin;
+        bottom: 47.5vmin;
+    }
+    to {
+        left: 11.8vmin;
+        bottom: 11.8vmin;
+    }
+}
+
+@keyframes move-dr {
+    from {
+        right: 47.5vmin;
+        bottom: 47.5vmin;
+    }
+    to {
+        right: 11.8vmin;
+        bottom: 11.8vmin;
+    }
+}
