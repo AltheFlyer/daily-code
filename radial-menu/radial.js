@@ -11,26 +11,26 @@ saveMenu();
 function saveMenu() {
     origMenu = document.querySelector(".radial-menu");
     menu = document.querySelector(".radial-menu");
+    menu.style = "";
     wrapper = document.querySelector(".radial-wrapper");
 
     let children = menu.querySelectorAll(".radial-child");
-
     directChildren = [];
 
     children.forEach(function(child) {
+        child.style = "";
         if (child.parentElement === menu) {
             directChildren.push(child);
         } else {
-            //child.style.visibility = "hidden";
-            //child.style.display = "none";
+            child.style.visibility = "hidden";
         }
     });
 
     displayChildren(directChildren);
 }
 
-function displayChildren(directChildren) {
-    let deltaAngle = (Math.PI * 2) / directChildren.length;
+function displayChildren(dc) {
+    let deltaAngle = (Math.PI * 2) / dc.length;
 
     let angle = 0;
 
@@ -38,18 +38,17 @@ function displayChildren(directChildren) {
     let gap = 5;
     let time = 0.1;
 
-    directChildren.forEach(function(child) {
-        console.log(child);
+    dc.forEach(function(child) {
         let childHeight = 20;
         let c = Math.cos(angle);
         let s = Math.sin(angle);
-        child.style.transitionDuration = "10s";
-        child.style.visibility = "visible";
+        child.style.transitionDuration = "0.7s";
         child.style.transitionDelay = time + "s";
         child.style.left = c * (gap + mainHeight / 2 + childHeight / 2) + childHeight / 2 + "vmin";
         child.style.top = s * (gap + mainHeight / 2 + childHeight / 2) + childHeight / 2 + "vmin";
 
-        child.style.display = "";
+        child.style.visibility = "";
+
         angle += deltaAngle;
         time += 0.1;
         if (child.querySelectorAll(".radial-child").length > 0) {
@@ -74,37 +73,30 @@ function promote(event) {
     directChildren.forEach(function(c) {
         if (c != mainTarget) {
             c.style = "";
-            c.style.transitionDelay = "0s";
             c.style.left = "10vmin";
             c.style.top = "10vmin";
         }
-    })
+    });
 
     setTimeout(function() {
-        menu = mainTarget;
-        mainTarget.removeEventListener("click", promote);
+        menu = mainTarget.cloneNode(true);
+        menu.removeEventListener("click", promote);
         wrapper.innerHTML = "";
-        wrapper.appendChild(mainTarget);
-        mainTarget.style = "";
-        mainTarget.className = "circle radial-menu";
+        menu.style = "";
+        menu.className = "circle radial-menu";
 
-        let children = mainTarget.querySelectorAll(".radial-child");
+        wrapper.appendChild(menu);
+
         directChildren = [];
-    
-        children.forEach(function(c) {
-            if (c.parentElement === mainTarget) {
+        menu.querySelectorAll(".radial-child").forEach(function(c) {
+            if (c.parentElement == menu) {
                 directChildren.push(c);
-                c.style.transitionDuration = "5s";
-                c.style.visibility = "visible";
-                c.style.display = "";
             }
         });
 
+        //Force a recalculation for the position of elements
+        //Prevents animation from being cut
+        wrapper.offsetWidth;
         displayChildren(directChildren);
-
-    }, 5000);
-}
-
-function generateTranslation(x, y) {
-    return "translate(" + x + "vmin, " + y + "vmin)";
+    }, 700);
 }

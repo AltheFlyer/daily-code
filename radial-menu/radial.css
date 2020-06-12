@@ -29,6 +29,8 @@ h1, h2, h3, h4, h5, h6 {
 .radial-wrapper {
     position: relative;
     z-index: 10;
+    overflow: hidden;
+    height: 160vmin;
 }
 
 .radial-menu {
@@ -37,10 +39,11 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #cccccc;
     margin: auto;
     border-radius: 50%;
+    left: 0px;
     top: 30vh;
     position: relative;
     overflow: visible;
-    font-size: 200%;
+    font-size: 6vmin;
 }
 
 .radial-child {
@@ -51,7 +54,7 @@ h1, h2, h3, h4, h5, h6 {
     top: 10vmin;
     position: absolute;
     margin: auto;
-    transition-duration: 5s;
+    transition-duration: .7s;
     transition-property: font-size, background-color, transform, height, width, left, top;
     font-size: 50%;
     z-index: -1;
