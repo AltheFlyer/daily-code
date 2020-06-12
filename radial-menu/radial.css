@@ -11,6 +11,7 @@
 body {
     position: relative;
     z-index: -1;
+    margin: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,18 +29,6 @@ h1, h2, h3, h4, h5, h6 {
 .radial-wrapper {
     position: relative;
     z-index: 10;
-    height: 98vmin;
-}
-
-.hidden-radial-menu {
-    z-index: -10;
-    width: 40vmin;
-    height: 40vmin;
-    background-color: #cccccc;
-    margin: auto;
-    border-radius: 50%;
-    top: 30vh;
-    overflow: visible;
 }
 
 .radial-menu {
@@ -62,9 +51,8 @@ h1, h2, h3, h4, h5, h6 {
     top: 10vmin;
     position: absolute;
     margin: auto;
-    transition-duration: 0.7s;
+    transition-duration: 5s;
     transition-property: font-size, background-color, transform, height, width, left, top;
-    visibility: hidden;
     font-size: 50%;
     z-index: -1;
 }
