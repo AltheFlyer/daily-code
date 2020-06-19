@@ -109,12 +109,12 @@ let positionBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
 let positions = [
-    110, 200,
-    280, 200,
-    110, 300,
-    110, 300,
-    280, 200,
-    280, 300,
+    0, 250,
+    0, 350,
+    600, 250,
+    600, 250,
+    0, 350,
+    600, 350,
 ];
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
 
@@ -133,8 +133,8 @@ gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
 /*END INITIALIZATION*/
 
 /*Transformations*/
-let translation = [100, 100];
-let rotation = 1;
+let translation = [0, 0];
+let rotation = 0;
 let scale = [1, 1];
 /*Transformations*/
 
@@ -149,6 +149,8 @@ function draw() {
     gl.enableVertexAttribArray(positionAttributeLocation);
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+    
+
 
     gl.enableVertexAttribArray(colorLocation);
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
@@ -163,7 +165,7 @@ function draw() {
 
     gl.uniformMatrix3fv(matrixLocation, false, matrix3.toGL(matrix));
 
-    gl.drawArrays(gl.TRIANGLES, 0, positions.length/2);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
 
     requestAnimationFrame(draw);
 }
