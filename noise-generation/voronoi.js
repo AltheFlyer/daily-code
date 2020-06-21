@@ -3,11 +3,11 @@ let ctx = canvas.getContext("2d");
 
 let controlPoints = [];
 let numPoints = 10;
-let divider = 20;
 
 Vector2 = function(x, y) {
     this.x = x;
     this.y = y;
+    this.color = "rgb(" + Math.random() * 255 + "," + Math.random() * 255 + "," + Math.random() * 255 + ")";
 }
 
 function getSquareDistance(x, y, vector) {
@@ -33,16 +33,25 @@ function draw() {
     for (let y = 0; y < 600; y++) {
         for (let x = 0; x < 600; x++) {
             let minSquareDist = 100000;
+            let closestPoint = controlPoints[0];
             for(let i = 0; i < controlPoints.length; i++) {
                 let d = getSquareDistance(x, y, controlPoints[i]) 
                 if (minSquareDist > d) {
                     minSquareDist = d;
+                    closestPoint = controlPoints[i];
                 }
             }
-            minSquareDist /= divider;
-            ctx.fillStyle = "rgb(" + minSquareDist + "," + minSquareDist + "," + minSquareDist + ")";
+
+            ctx.fillStyle = closestPoint.color;
             ctx.fillRect(x, y, 1, 1);
         }
+    }
+
+    ctx.fillStyle = "black";
+    for(let i = 0; i < controlPoints.length; i++) {
+        ctx.beginPath();
+        ctx.arc(controlPoints[i].x, controlPoints[i].y, 3, 0, Math.PI * 2);
+        ctx.fill();
     }
 }
 
@@ -74,10 +83,3 @@ distanceScaler.addEventListener("change", function() {
 
     draw();
 })
-
-let divideScaler = document.getElementById("division-scaler");
-
-divideScaler.addEventListener("change", function() {
-    divider = parseInt(divideScaler.value);
-    draw();
-});
