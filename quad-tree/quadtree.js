@@ -4,7 +4,7 @@ let canvas = document.getElementById("main-canvas");
 let ctx = canvas.getContext("2d");
 
 const CAPACITY = 5;
-const MAX_DEPTH = 5;
+const MAX_DEPTH = 3;
 
 let Rectangle = function(x, y, w, h) {
     this.x = x;
@@ -19,7 +19,7 @@ let Rectangle = function(x, y, w, h) {
         let topBetween = this.y > rect.y && this.y < rect.y + rect.h;
         let botBetween = this.y + this.h > rect.y && this.y + this.h < rect.y + rect.h;
  
-        return (leftBetween && topBetween) || (rightBetween && topBetween) || (leftBetween && botBetween) || (rightBetween && botBetween);
+        return (leftBetween || rightBetween) && (topBetween || botBetween);
     }
 }
 
@@ -154,13 +154,20 @@ let velocities = [];
 for (let i = 0; i < 500; i++) {
     rectangles.push(new Rectangle(Math.random() * 550 + 25, Math.random() * 550 + 25, 10.0, 10.0));
     tree.insert(rectangles[i]);
-    velocities.push(new Velocity(Math.random() * 200 - 100, Math.random() * 200 - 100));
+    velocities.push(new Velocity(Math.random() * 100 - 50, Math.random() * 100 - 50));
 }
 
 
 let lastTime = Date.now();
 
 function draw() {
+
+    tree.clear();
+    
+    for (let i = 0; i < rectangles.length; i++) {
+        tree.insert(rectangles[i]);
+    }
+
     let overlap = [];
     let delta = (Date.now() - lastTime) / 1000;
     lastTime = Date.now();
@@ -168,6 +175,7 @@ function draw() {
 
     ctx.fillStyle = "#ff000044";
     console.log(delta);
+    
     for (let i = 0; i < rectangles.length; i++) {
         rectangles[i].x += velocities[i].x * delta;
         rectangles[i].y += velocities[i].y * delta;
@@ -189,13 +197,14 @@ function draw() {
             velocities[i].y *= -1;
         }
     }
-
+    
     for (let i = 0; i < rectangles.length; i++) {
         ctx.fillRect(rectangles[i].x, rectangles[i].y, rectangles[i].w, rectangles[i].h);
         let collidable = tree.getCollidable(rectangles[i]);
         for (let j = 0; j < collidable.length; j++) {
             if (collidable[j] != rectangles[i] && collidable[j].collides(rectangles[i])) {
                 overlap.push(rectangles[i]);
+                overlap.push(collidable[j]);
                 j = collidable.length;
             }
         }
@@ -206,7 +215,9 @@ function draw() {
         ctx.strokeRect(overlap[i].x, overlap[i].y, overlap[i].w, overlap[i].h);
     }
     tree.draw(ctx);
-    //requestAnimationFrame(draw);
+    requestAnimationFrame(draw);
 }
 
 draw();
+
+
