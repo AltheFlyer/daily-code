@@ -67,6 +67,8 @@ let vertexShaderSource = document.getElementById("vertex-shader").text;
 
 let fragmentShaderSource = document.getElementById("fragment-shader").text;
 
+
+
 function createShader(gl, type, source) {
     let shader = gl.createShader(type);
     gl.shaderSource(shader, source);
@@ -104,6 +106,7 @@ let positionAttributeLocation = gl.getAttribLocation(program, "a_position");
 let resolutionUniformLocation = gl.getUniformLocation(program, "u_resolution");
 let matrixLocation = gl.getUniformLocation(program, "u_matrix");
 let colorLocation = gl.getAttribLocation(program, "a_color");
+let texcoordLocation = gl.getAttribLocation(program, "a_texcoord");
 
 let positionBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -129,6 +132,51 @@ gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
     0, 0, 0, 1,
     0, 0, 0, 1,
 ]), gl.STATIC_DRAW);
+
+
+let texBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, texBuffer);
+gl.enableVertexAttribArray(texcoordLocation);
+gl.vertexAttribPointer(texcoordLocation, 2, gl.FLOAT, false, 0, 0);
+
+function setTexcoords(gl) {
+    gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array([
+          0, 0,
+          0, 1,
+          1, 0,
+          0, 1,
+          1, 1,
+          1, 0,
+   
+          0, 0,
+          0, 1,
+          1, 0,
+          0, 1,
+          1, 1,
+          1, 0,
+         ]), gl.STATIC_DRAW);
+}
+
+setTexcoords(gl);
+
+
+let texture = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_2D, texture);
+
+gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 255, 255]));
+
+let image = new Image();
+image.crossOrigin="";
+image.addEventListener("load", function() {
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+    //gl.generateMipmap(gl.TEXTURE_2D);
+});
+image.src = document.getElementById("thonk").src;
+
+
 
 /*END INITIALIZATION*/
 

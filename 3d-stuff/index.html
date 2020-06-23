@@ -7,14 +7,18 @@
     </head>
 
     <body>
+        <img id="thonk" src="thinking.png" >
         <canvas id="screen" width="600" height="600"></canvas>
 
         <script id="vertex-shader" type="notjs">
             attribute vec2 a_position;
             attribute vec4 a_color;
+
+            attribute vec2 a_texcoord;
             
             uniform vec2 u_resolution;
             varying vec4 v_color;
+            varying vec2 v_texcoord;
 
             uniform mat3 u_matrix;
 
@@ -29,12 +33,15 @@
 
                 gl_Position = vec4(clipSpace, 0, 1);
                 v_color = a_color;
+                v_texcoord = a_texcoord;
             }
         </script>
 
         <script id="fragment-shader" type="notjs">
             precision mediump float;
             varying vec4 v_color;
+            varying vec2 v_texcoord;
+            uniform sampler2D u_texture;
 
             void main() {
                 gl_FragColor = v_color;
