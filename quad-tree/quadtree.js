@@ -23,6 +23,11 @@ let Rectangle = function(x, y, w, h) {
     }
 }
 
+let Velocity = function(vx, vy) {
+    this.x = vx;
+    this.y = vy;
+}
+
 let Quadtree = function(depth, x, y, w, h) {
     this.objects = [];
     this.children = [];
@@ -144,29 +149,64 @@ let Quadtree = function(depth, x, y, w, h) {
 
 let tree = new Quadtree(0, 0, 0, 600, 600);
 let rectangles = [];
+let velocities = [];
 
-for (let i = 0; i < 10000; i++) {
-    rectangles.push(new Rectangle(Math.random() * 550 + 25, Math.random() * 550 + 25, 4.0, 4.0));
+for (let i = 0; i < 500; i++) {
+    rectangles.push(new Rectangle(Math.random() * 550 + 25, Math.random() * 550 + 25, 10.0, 10.0));
     tree.insert(rectangles[i]);
+    velocities.push(new Velocity(Math.random() * 200 - 100, Math.random() * 200 - 100));
 }
 
-ctx.fillStyle = "#ff000044";
-let overlap = [];
 
-for (let i = 0; i < rectangles.length; i++) {
-    ctx.fillRect(rectangles[i].x, rectangles[i].y, rectangles[i].w, rectangles[i].h);
-    let collidable = tree.getCollidable(rectangles[i]);
-    for (let j = 0; j < collidable.length; j++) {
-        if (collidable[j] != rectangles[i] && collidable[j].collides(rectangles[i])) {
-            overlap.push(rectangles[i]);
-            j = collidable.length;
+let lastTime = Date.now();
+
+function draw() {
+    let overlap = [];
+    let delta = (Date.now() - lastTime) / 1000;
+    lastTime = Date.now();
+    ctx.clearRect(0, 0, 600, 600);
+
+    ctx.fillStyle = "#ff000044";
+    console.log(delta);
+    for (let i = 0; i < rectangles.length; i++) {
+        rectangles[i].x += velocities[i].x * delta;
+        rectangles[i].y += velocities[i].y * delta;
+        if (rectangles[i].x < 0) {
+            rectangles[i].x = 0;
+            velocities[i].x *= -1;
+        }
+        if (rectangles[i].x + rectangles[i].w > 600) {
+            rectangles[i].x = 600 - rectangles[i].w;
+            velocities[i].x *= -1;
+        }
+
+        if (rectangles[i].y < 0) {
+            rectangles[i].y = 0;
+            velocities[i].y *= -1;
+        }
+        if (rectangles[i].y + rectangles[i].h > 600) {
+            rectangles[i].y = 600 - rectangles[i].h;
+            velocities[i].y *= -1;
         }
     }
+
+    for (let i = 0; i < rectangles.length; i++) {
+        ctx.fillRect(rectangles[i].x, rectangles[i].y, rectangles[i].w, rectangles[i].h);
+        let collidable = tree.getCollidable(rectangles[i]);
+        for (let j = 0; j < collidable.length; j++) {
+            if (collidable[j] != rectangles[i] && collidable[j].collides(rectangles[i])) {
+                overlap.push(rectangles[i]);
+                j = collidable.length;
+            }
+        }
+    }
+
+    ctx.strokeStyle = "#000000";
+    for (let i = 0; i < overlap.length; i++) {
+        ctx.strokeRect(overlap[i].x, overlap[i].y, overlap[i].w, overlap[i].h);
+    }
+    tree.draw(ctx);
+    //requestAnimationFrame(draw);
 }
 
-ctx.strokStyle = "#000000";
-for (let i = 0; i < overlap.length; i++) {
-    ctx.strokeRect(overlap[i].x, overlap[i].y, overlap[i].w, overlap[i].h);
-}
-
-tree.draw(ctx);
+draw();
