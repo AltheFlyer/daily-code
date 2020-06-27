@@ -151,8 +151,8 @@ let tree = new Quadtree(0, 0, 0, 600, 600);
 let rectangles = [];
 let velocities = [];
 
-for (let i = 0; i < 500; i++) {
-    rectangles.push(new Rectangle(Math.random() * 550 + 25, Math.random() * 550 + 25, 10.0, 10.0));
+for (let i = 0; i < 2500; i++) {
+    rectangles.push(new Rectangle(Math.random() * 550 + 25, Math.random() * 550 + 25, 5.0, 5.0));
     tree.insert(rectangles[i]);
     velocities.push(new Velocity(Math.random() * 100 - 50, Math.random() * 100 - 50));
 }
