@@ -32,7 +32,7 @@ function randomizePoints() {
 function draw() {
     for (let y = 0; y < 600; y++) {
         for (let x = 0; x < 600; x++) {
-            let minSquareDist = 100000;
+            let minSquareDist = Infinity;
             let closestPoint = controlPoints[0];
             for(let i = 0; i < controlPoints.length; i++) {
                 let d = getSquareDistance(x, y, controlPoints[i]) 
