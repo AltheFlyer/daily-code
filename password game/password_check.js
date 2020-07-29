@@ -37,3 +37,11 @@ module.exports = {
     onlyStars: onlyStars,
 }
 */
+
+let PasswordCondition = function(checkFunction, textComponent) {
+    this.textComponent = textComponent;
+    this.checkFunction = checkFunction;
+    this.check = function(string) {
+        return this.checkFunction(string);
+    };
+}

@@ -10,12 +10,12 @@
             Enter a pssword that satisfies the following criteria:
         </p>
 
-        <ul>
-            <li id="upper">Has uppercase characters</li>
-            <li id="lower">Has lowercase characters</li>
-            <li id="special">Has special characters</li>
-            <li id="digit">Has numbers</li>
-            <li id="length">Is between 8 and 16 characters long</li>
+        <ul id="conditions">
+            <li id="upper" req="upper">Has uppercase characters</li>
+            <li id="lower" req="lower">Has lowercase characters</li>
+            <li id="special" req="special">Has special characters</li>
+            <li id="digit" req="digit">Has numbers</li>
+            <li id="length" req="length" min="8" max="16">Is between 8 and 16 characters long</li>
         </ul>
 
         <form id="password-submission">
