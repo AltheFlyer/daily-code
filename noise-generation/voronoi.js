@@ -82,4 +82,33 @@ distanceScaler.addEventListener("change", function() {
     }
 
     draw();
+});
+
+
+selectedPoint = {};
+
+canvas.addEventListener("mousedown", function(e) {
+    let mouseX = e.clientX - canvas.getBoundingClientRect().left;
+    let mouseY = e.clientY - canvas.getBoundingClientRect().top;
+    for(let i = 0; i < controlPoints.length; i++) {
+        let x = mouseX - controlPoints[i].x;
+        let y = mouseY - controlPoints[i].y;
+        if (x * x + y * y < 100) {
+            selectedPoint = controlPoints[i];
+        }
+    }
+});
+
+canvas.addEventListener("mouseup", function() {
+    selectedPoint = {};
+});
+
+canvas.addEventListener("mousemove", function(e) {
+    let mouseX = e.clientX - canvas.getBoundingClientRect().left;
+    let mouseY = e.clientY - canvas.getBoundingClientRect().top;
+    if (selectedPoint != {}) {
+        selectedPoint.x = mouseX;
+        selectedPoint.y = mouseY;
+        draw();
+    }
 })

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Regex test</title>
+    </head>
+    <body>
+        <p>
+            Enter a pssword that satisfies the following criteria:
+        </p>
+
+        <ul>
+            <li id="upper">Has uppercase characters</li>
+            <li id="lower">Has lowercase characters</li>
+            <li id="special">Has special characters</li>
+            <li id="digit">Has numbers</li>
+            <li id="length">Is between 8 and 16 characters long</li>
+        </ul>
+
+        <form id="password-submission">
+            <input name="password" type="text">
+            <button id="submit-button" type="button">Submit</button>
+        </form>
+
+        <p id="result"></p>
+        <script src="password_check.js"></script>
+        <script src="basic_passwords.js"></script>
+    </body>
+</html>
