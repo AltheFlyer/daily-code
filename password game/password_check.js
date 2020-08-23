@@ -35,6 +35,7 @@ module.exports = {
     fitLength:fitLength,
 
     onlyStars: onlyStars,
+    hasZalgo: hasZalgo
 }
 */
 

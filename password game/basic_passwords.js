@@ -53,7 +53,10 @@ conditionHolder.querySelectorAll("li").forEach(element => {
                 tryAutoText(element, "Has at least " + min + " characters.");
             }
             break;
-            
+        case "onlystars":
+            conditions.push(new PasswordCondition(onlyStars, element));
+            tryAutoText("Has only ************.");
+            break;
     }
 });
 
