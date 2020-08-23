@@ -3,18 +3,33 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <link href="index.css" rel="stylesheet" type="text/css">
     </head>
 
     <body>
+        <h1>Questionable Text Edits</h1>
         <div>
-            <textarea id="input">
+            <div class="text-section">
+                <div>
+                    <h2>Input</h2>
+                    <textarea id="input" rows="10">
 
-            </textarea>
-            <textarea id="output">
+                    </textarea>
+                </div>
+                <div>
+                    <h2>Output</h2>
+                    <textarea id="output" rows="10">
 
-            </textarea>
-            <button id="aesthetic-button">A E S T H E T I C Spacing</button>
-            <button id="memecase-button">MeMe CaSiNg</button>
+                    </textarea>
+                </div>
+            </div>
+            <div class="buttons">
+                <h3>Meme buttons</h3>
+                <button id="aesthetic-button">A E S T H E T I C Spacing</button>
+                <button id="memecase-button">MeMe CaSiNg</button>
+                <h3>Ciphers WIP</h3>
+                <button id="rot13">Rot-13</button>
+            </div>
         </div>
 
         <script src="text.js"></script>
