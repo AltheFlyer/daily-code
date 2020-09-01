@@ -7,18 +7,20 @@ let Point = function(x, y) {
 }
 
 let points = [
-    new Point(10, 10),
-    new Point(100, 100),
-    new Point(10, 100),
-    new Point(100, 10),
-    new Point(50, 50),
-    new Point(75, 80),
-    new Point(20, 70)
+    new Point(200, 200),
+    new Point(200, 400),
+    new Point(400, 200),
+    new Point(400, 400),
+    new Point(270, 260),
+    new Point(350, 300),
+    new Point(290, 340),
 ];
 
 draw();
 
 let shiftPress = false;
+let currentDrawFunction = () => {};
+
 
 document.addEventListener("keydown", function(event) {
     if (event.key == "Shift") {
@@ -54,6 +56,8 @@ canvas.addEventListener("mousedown", function(event) {
 function draw() {
     ctx.clearRect(0, 0, 600, 600);
 
+    ctx.fillStyle = "#000000";
+
     points.forEach(function(p) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
@@ -69,8 +73,13 @@ function draw() {
         });
         ctx.lineTo(hull[0].x, hull[0].y);
         ctx.stroke();
-    } else {
-        alert("Not enough points to make a hull!");
+
+        ctx.fillStyle = "#FF0000";
+        hull.forEach(function(p) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+            ctx.fill();
+        });
     }
 }
 
@@ -143,8 +152,6 @@ function grahamscan(points) {
     pointStack.push(lowestPoint);
 
     return pointStack;
-
-
 }
 
 //Get the angle from point A to point B

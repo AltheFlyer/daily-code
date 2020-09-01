@@ -3,10 +3,90 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <link href="convexhull.css" rel="stylesheet" type="text/css"></link>
+        <title>Convex Hull</title>
     </head>
 
     <body>
+        <h1>Convex Hull Visualizer</h1>
         <canvas id="main-canvas" width="600" height="600"></canvas>
+
+        <h2>Steps</h2>
+        <div id="algo-steps">
+            <h3>Prepare the points</h3>
+            <div class="tab-out">
+                <div class="step">
+                    <h3>Find a corner point</h3>
+                    <p>
+                        Find the point with the lowest x and y coordinate.
+                        Since the y axis is inverted when drawing, this means finding
+                        the top leftmost point.
+                    </p>
+                </div>
+                <div class="step">
+                    <h3>Sort points by angle</h3>
+                    <p>
+                        Create a list of the points by angle in counter-clockwise order.
+                    </p>
+                </div>
+                <div class="step">
+                    <h3>Remove points with shared angles</h3>
+                    <p>
+                        Since we want to encapsulate all points, we want to prioritize 
+                        points that are further out (and ignore closer ones).
+                    </p>
+                </div>
+                <div class="step">
+                    <h3>Check if there are enough points</h3>
+                    <p>
+                        If there are exactly 2 other points left, we have a triangle.
+                        If there are less, there is no shape.
+                        Otherwise, we proceed through the rest of the points.
+                    </p>
+                </div>
+            </div>
+            <h3>Traversing through points</h3>
+            <div class="tab-out">
+                <div>
+                    <div class="step">
+                        <h3>Add three points to a 'stack'</h3>
+                        <p>
+                            Take the first three points from our sorted list and add them to a 'stack'.
+                            Use a pseudo-stack since we always want to look at the top three points,
+                            and only ever have to remove the second newest point.
+                            This stack will eventually form our convex hull.
+                        </p>
+                    </div>
+                    <div class="step">
+                        <h3>Determine the angle between the points</h3>
+                        <p>
+                            Find the angle from the last added point to the second last, and from the second last
+                            added point to the third last. We can find the difference between the angles, and determine if 
+                            it is clockwise (concave) or counterclockwise.
+                        </p>
+                    </div>
+                    <div class="step">
+                        <h3>Remove concave points</h3>
+                        <p>
+                            If the angle between the last added three points was clockwise, we would have a concave angle,
+                            meaning the second last added point must be removed from the stack. 
+                        </p>
+                    </div>
+                    <div>
+                        <h3>Repeat for points in order</h3>
+                        <p>
+                            Repeat the point addition, angle check, and concave removal for all points in our list
+                            or sorted points.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Source</h2>
+        <p>
+            <a href="https://www.geeksforgeeks.org/convex-hull-set-2-graham-scan/?ref=lbp">https://www.geeksforgeeks.org/convex-hull-set-2-graham-scan/?ref=lbp</a> - for algorithm explanation
+        </p>
         <script src="convexhull.js"></script>
     </body>
 </html>
