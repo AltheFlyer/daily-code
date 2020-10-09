@@ -1,0 +1,14 @@
+{
+    "name": "Whiteboard",
+    "version": "0.1",
+    "description": "A transparent whiteboard over any webpage!",
+    "permissions": ["activeTab", "storage", "declarativeContent"],
+    "background" : {
+        "scripts": ["background.js"]
+    },
+    "page_action": {
+        "default_popup": "popup.html"
+    },
+    
+    "manifest_version": 2
+}
