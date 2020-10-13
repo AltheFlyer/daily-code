@@ -94,7 +94,8 @@
                         squares: Array(42).fill(null),
                         redNext: true,
                         gameState: "Running (Red Turn)",
-                        running: true
+                        running: true,
+                        turns: 0
                     };
                 }
 
@@ -141,6 +142,13 @@
                 }
 
                 checkWin(i) {
+                    if (this.state.turns == 42) {
+                        this.setState({
+                            gameState: "Tie!",
+                            running: false
+                        });
+                        return false;
+                    }
                     return (this.checkLines(i, 1, 1) || this.checkLines(i, 0, 1) || this.checkLines(i, 1, 0) || this.checkLines(i, 1, -1));
                 }
 
@@ -163,7 +171,8 @@
                             this.setState({
                                 squares: squares,
                                 redNext: !this.state.redNext,
-                                gameState : "Running " + "(" + (!this.state.redNext ? "Red turn": "Blue Turn") + ")"
+                                gameState : "Running " + "(" + (!this.state.redNext ? "Red turn": "Blue Turn") + ")",
+                                turns: this.state.turns + 1
                             }, () => {
                                 if (this.checkWin(tile)) {
                                     this.setState({
