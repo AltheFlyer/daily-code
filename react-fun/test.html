@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html>
+    <head>      
+        <meta charset="utf-8">
+        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    </head>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .board-row {
+            display: block;
+            height: 100px;
+        }
+
+        .square {
+            width: 100px;
+            height: 100px;
+            box-shadow: none;
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .round {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: auto;
+            background-color: rgb(250, 250, 250);
+        }
+
+        .red {
+            background-color: rgb(230, 36, 36);
+        }
+
+        .blue {
+            background-color: rgb(31, 88, 245);
+        }
+    </style>
+
+    <body>
+        <div id="root">
+
+        </div>
+        <script type="text/babel">
+            class List extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        name: "Hi",
+                        count: 0
+                    }
+                }
+
+                render() {
+                    return (
+                        <div className="list">
+                            <ul>
+                                {this.state.name}<br/>
+                                {this.state.count}
+                                <li>A</li>  
+                                <li>B</li> 
+                                <li>C</li>   
+                            </ul>
+
+                            <button onClick={() => this.setState({count: this.state.count + 1})}>Add one {this.props.count}</button>
+                        </div>
+                    );
+                }
+            }
+
+            class Square extends React.Component {
+                render() {
+                    let classSet = "round " + this.props.value;
+                    return (
+                        <button className="square" onClick={() => this.props.onClick()}>
+                               <div className={classSet}>
+                                </div>
+                        </button>
+                    );
+                }
+            }
+
+            class GameBoard extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        squares: Array(42).fill(null),
+                        redNext: true,
+                        gameState: "Running (Red Turn)",
+                        running: true
+                    };
+                }
+
+                indexToX(i) {
+                    return i % 7;
+                }
+
+                indexToY(i) {
+                    return (i / 7) | 0;
+                }
+
+                xyToIndex(x, y) {
+                    return y * 7 + x;
+                }
+
+                checkLine(i, dx, dy) {
+                    let x = this.indexToX(i);
+                    let y = this.indexToY(i);
+                    let squares = this.state.squares.slice();
+                    if (0 <= x && x <= 6 && 0 <= (x+3*dx) && (x+3*dx) <= 6 && 0 <= y && y <= 5 && 0 <= (y+3*dy) && (y+3*dy) <= 5) {
+                        let tile = squares[i];
+                        if (tile != null) {
+                            for (let j = 1; j < 4; j++) {
+                                let bCount = 1;
+                                if (squares[this.xyToIndex(x + j * dx, y + j * dy)] != tile) {
+                                    return false;  
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                checkLines(i, dx, dy) {
+                    let x = this.indexToX(i);
+                    let y = this.indexToY(i);
+                    for (let j = 0; j < 4; j++) {
+                        if (this.checkLine(this.xyToIndex(x - dx * j, y - dy * j), dx, dy)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                checkWin(i) {
+                    return (this.checkLines(i, 1, 1) || this.checkLines(i, 0, 1) || this.checkLines(i, 1, 0) || this.checkLines(i, 1, -1));
+                }
+
+                handleClick(i) {
+                    if (this.state.running) {
+                        let squares = this.state.squares.slice();
+                        let tile = i % 7 + 35;
+                        if (squares[i] == null) {
+                            while (tile >= 0 && squares[tile] == null) {
+                                tile -= 7;
+                            }
+                            tile += 7;
+                            if (this.state.redNext) {
+                                squares[tile] = 'red';
+                            } else {
+                                squares[tile] = 'blue';
+                            }
+
+                            //Since set state is async, we wait for the squares to be updated before checking for wins
+                            this.setState({
+                                squares: squares,
+                                redNext: !this.state.redNext,
+                                gameState : "Running " + "(" + (!this.state.redNext ? "Red turn": "Blue Turn") + ")"
+                            }, () => {
+                                if (this.checkWin(tile)) {
+                                    this.setState({
+                                        gameState : (!this.state.redNext ? "Red": "Blue") + " Wins!",
+                                        running: false
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+
+                renderSquare(i) {
+                    return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)}/>
+                }
+
+                reset() {
+                    this.setState({
+                        squares: Array(42).fill(null),
+                        gameState: "Running (Red Turn)",
+                        running: true 
+                    });
+                }
+
+                render() {
+                    return (
+                    <div>
+                        {this.state.gameState}
+                        <div className="board-row"> 
+                            {this.renderSquare(35)} 
+                            {this.renderSquare(36)} 
+                            {this.renderSquare(37)} 
+                            {this.renderSquare(38)} 
+                            {this.renderSquare(39)} 
+                            {this.renderSquare(40)} 
+                            {this.renderSquare(41)}     
+                        </div>
+                        <div className="board-row">
+                            {this.renderSquare(28)} 
+                            {this.renderSquare(29)} 
+                            {this.renderSquare(30)} 
+                            {this.renderSquare(31)} 
+                            {this.renderSquare(32)} 
+                            {this.renderSquare(33)} 
+                            {this.renderSquare(34)}   
+                        </div>
+                        <div className="board-row"> 
+                            {this.renderSquare(21)} 
+                            {this.renderSquare(22)} 
+                            {this.renderSquare(23)} 
+                            {this.renderSquare(24)} 
+                            {this.renderSquare(25)} 
+                            {this.renderSquare(26)} 
+                            {this.renderSquare(27)}    
+                        </div>
+                        <div className="board-row">
+                            {this.renderSquare(14)} 
+                            {this.renderSquare(15)} 
+                            {this.renderSquare(16)} 
+                            {this.renderSquare(17)} 
+                            {this.renderSquare(18)} 
+                            {this.renderSquare(19)} 
+                            {this.renderSquare(20)}   
+                        </div>
+                        <div className="board-row">
+                            {this.renderSquare(7)} 
+                            {this.renderSquare(8)} 
+                            {this.renderSquare(9)} 
+                            {this.renderSquare(10)} 
+                            {this.renderSquare(11)} 
+                            {this.renderSquare(12)} 
+                            {this.renderSquare(13)}    
+                        </div>
+                        <div className="board-row">
+                            {this.renderSquare(0)} 
+                            {this.renderSquare(1)} 
+                            {this.renderSquare(2)} 
+                            {this.renderSquare(3)} 
+                            {this.renderSquare(4)} 
+                            {this.renderSquare(5)}
+                            {this.renderSquare(6)}     
+                        </div>
+                        <button onClick={() => {this.reset()}}>Reset Game</button>
+                    </div>
+                    )
+                }
+            }
+
+            ReactDOM.render(
+                <GameBoard/>,
+                document.getElementById('root')
+            );
+                    
+        </script>
+    </body>
+</html>
