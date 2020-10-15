@@ -36,7 +36,7 @@ class BouncingCircle {
             this.y -= (this.minY - this.y + this.radius) * 2;
         } else if (this.y + this.radius > this.maxY && this.vy > 0) {
             this.vy *= -1;
-            this.y += (this.y + this.radius - this.maxY) * 2;
+            this.y -= (this.y + this.radius - this.maxY) * 2;
         }
 
         if (this.x + this.radius < this.minX && this.vx < 0) {
@@ -68,20 +68,6 @@ class BouncingPolygon extends BouncingCircle {
     }
 
     draw = function(ctx) {
-        /*
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.stroke();
-        */
-
-        /*
-        for (let i = 0; i < this.sides; i++) {
-            ctx.beginPath();
-            ctx.arc(this.x + Math.cos(this.angle + (Math.PI * 2 * i)/this.sides) * this.radius, this.y + Math.sin(this.angle + (Math.PI * 2 * i)/this.sides) * this.radius, 5, 0, Math.PI * 2);
-            ctx.fill();
-        }
-        */
-        
         ctx.beginPath();
         ctx.moveTo(this.x + Math.cos(this.angle + (Math.PI * 2)/this.sides) * this.radius, this.y + Math.sin(this.angle + (Math.PI * 2)/this.sides) * this.radius)
         for (let i = 0; i <= this.sides; i++) {
@@ -115,7 +101,7 @@ class BouncingPolygon extends BouncingCircle {
             }
             if (highestY > this.maxY) {
                 this.vy *= -1;
-                this.y += (highestY - this.maxY) * 2;
+                this.y -= (highestY - this.maxY) * 2;
             }
         }
 
@@ -127,6 +113,26 @@ class BouncingPolygon extends BouncingCircle {
     }
 }
 
+class BouncingStar extends BouncingPolygon {
+    constructor(x, y, r, vx, vy, an, ar, sides, minorRad) {
+        super(x, y, r, vx, vy, an, ar, sides);
+        this.minorRadius = minorRad;
+    }
+
+    draw = function(ctx) {
+        let halfAngle = Math.PI/this.sides;
+
+        ctx.beginPath();
+        ctx.moveTo(this.x + Math.cos(this.angle + (Math.PI * 2)/this.sides) * this.radius, this.y + Math.sin(this.angle + (Math.PI * 2)/this.sides) * this.radius)
+        for (let i = 1; i <= this.sides; i++) {
+            ctx.lineTo(this.x + Math.cos(this.angle + (Math.PI * 2 * i)/this.sides) * this.radius, this.y + Math.sin(this.angle + (Math.PI * 2 * i)/this.sides) * this.radius);
+            ctx.lineTo(this.x + Math.cos(this.angle + halfAngle + (Math.PI * 2 * i)/this.sides) * this.minorRadius, this.y + Math.sin(this.angle + halfAngle + (Math.PI * 2 * i)/this.sides) * this.minorRadius);
+        }
+        ctx.lineTo(this.x + Math.cos(this.angle + (Math.PI * 2)/this.sides) * this.radius, this.y + Math.sin(this.angle + (Math.PI * 2)/this.sides) * this.radius);
+        
+        ctx.stroke();
+    }
+}
 
 let shapes = [];
 
@@ -142,7 +148,11 @@ for (let i = 0; i < 100; i++) {
     if (Math.random() < 0.2) {
         shapes.push(new BouncingCircle(Math.random() * 1000, Math.random() * 300 + 150, radius, Math.cos(theta) * velocity, Math.sin(theta) * velocity));
     } else {
-        shapes.push(new BouncingPolygon(Math.random() * 1000, Math.random() * 300 + 150, radius, Math.cos(theta) * velocity, Math.sin(theta) * velocity, Math.random() * Math.PI * 2, Math.PI / 2, Math.floor(Math.random() * 4) + 3));
+        if (Math.random() < 0.5) {
+            shapes.push(new BouncingPolygon(Math.random() * 1000, Math.random() * 300 + 150, radius, Math.cos(theta) * velocity, Math.sin(theta) * velocity, Math.random() * Math.PI * 2, Math.PI / 2, Math.floor(Math.random() * 4) + 3));
+        } else {
+            shapes.push(new BouncingStar(Math.random() * 1000, Math.random() * 300 + 150, radius, Math.cos(theta) * velocity, Math.sin(theta) * velocity, Math.random() * Math.PI * 2, Math.PI / 2, Math.floor(Math.random() * 3) + 4, radius/2 + Math.random() * (radius/4)));
+        }
     }
 }
 
