@@ -34,7 +34,7 @@ let draw = function() {
 
     for (let y = 0; y < mapHeight; y++) {
         for (let x = 0; x < mapWidth; x++) {
-            ctx.fillStyle = "#55555500";
+            ctx.fillStyle = "#555555";
             if (map[x][y].isSolid) {
                 ctx.fillRect(x * boxWidth, y * boxHeight, boxWidth, boxHeight);
             } else {
@@ -61,25 +61,25 @@ let bfs = function(startX, startY, endX, endY) {
         let x = currentSpace.x;
         let y = currentSpace.y;
 
-        if (x > 0 && map[x - 1][y].distance == -1) {
+        if (x > 0 && map[x - 1][y].distance == -1 && !map[x - 1][y].isSolid) {
             queue.push({x: x - 1, y: y});
             map[x - 1][y].distance = map[x][y].distance + 1;
             if (x - 1 == endX && y == endY)
                 break;
         }
-        if (y > 0 && map[x][y - 1].distance == -1) {
+        if (y > 0 && map[x][y - 1].distance == -1 && !map[x][y - 1].isSolid) {
             queue.push({x: x, y: y - 1});
             map[x][y - 1].distance = map[x][y].distance + 1;
             if (x == endX && y - 1 == endY)
                 break;
         }
-        if (x < mapWidth - 1 && map[x + 1][y].distance == -1) {
+        if (x < mapWidth - 1 && map[x + 1][y].distance == -1 && !map[x + 1][y].isSolid) {
             queue.push({x: x + 1, y: y});
             map[x + 1][y].distance = map[x][y].distance + 1;
             if (x + 1== endX && y == endY)
                 break;
         }
-        if (y < mapHeight - 1 && map[x][y + 1].distance == -1) {
+        if (y < mapHeight - 1 && map[x][y + 1].distance == -1 && !map[x][y + 1].isSolid) {
             queue.push({x: x, y: y + 1});
             map[x][y + 1].distance = map[x][y].distance + 1;
             if (x == endX && y + 1 == endY)
@@ -102,5 +102,18 @@ canvas.addEventListener("click", function(e) {
     let gridY = parseInt(y/boxHeight);
 
     map[gridX][gridY].isSolid = !map[gridX][gridY].isSolid;
+
+    for (let y = 0; y < mapHeight; y++) {
+        for (let x = 0; x < mapWidth; x++) {
+            map[x][y].reset();
+        }
+    }
+    
+    //bfs(0, 0, 10, 10);
     draw();
+    canvas.focus();
+});
+
+canvas.addEventListener("keydown", function(e) {
+    bfs(0, 0, 10, 10);
 });

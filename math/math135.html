@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Math 135 Interactive</title>
+    <link href="math135.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <section>
+        <h1>Extended Euclidean Algorithm</h1>
+        <table id="eea-output-table">
+            <tr>
+                <th>x</th>
+                <th>y</th>
+                <th>r</th>
+                <th>q</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>0</td>
+                <td>a</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>1</td>
+                <td>b</td>
+                <td>0</td>
+            </tr>
+        </table>
+        <form id="eea-input">
+            <label for="eea-a">a</label>
+            <input name="eea-a" type="number" value="1">
+            <label for="eea-b">b</label>
+            <input name="eea-b" type="number" value="1">
+            <button class="submit-button">Calculate</button>
+        </form>
+        <p id="eea-output"></p>
+        <details>
+            <summary>Explanation</summary>
+            <p>
+                The Euclidean Algorithm is a relatively easy way to determine the greatest common divisor
+                of two numbers (the GCD). We can prove that we have the correct divisor using a certificate of
+                correctness,
+                which takes the form as+bt=d, where a and b are given values, d=gcd(a,b), and s and t are specific
+                integers. We call it the certificate of correctness since s and t are all we need to 'certify' that we
+                have the right number.
+            </p>
+
+            <p>
+                Finsing the GCD is pretty easy using the base Euclidean Algorithm, but finding the certificates of
+                correctness require lots of substitution.
+                We can reduce the work needed using the Extended Euclidean Algorithm, which can get us
+                the GCD, along with the certificates of correcteness to form the equation as+bt=d
+            </p>
+        </details>
+    </section>
+
+    <section>
+        <h1>Modulo Calculator</h1>
+        <form id="mod-input">
+            <input name="mod-a" type="number" value="0">≡   <span id="mod-output">0</span><span>  (mod <input name="mod-m" type="number" value="1">)</span>
+            <br>
+            <label for="math-mode">Check for mathematical modulo, uncheck for modulo in code</label>
+            <input name="math-mode" type="checkbox" value="math-mode">
+        </form>
+    </section>
+
+    <script src="math135.js"></script>
+</body>
+
+</html>
